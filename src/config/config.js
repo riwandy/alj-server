@@ -6,7 +6,7 @@ module.exports = {
       password: process.env.DB_PASSWORD || "dTOed*1s",
       options: {
         dialect: process.env.DIALECT || 'postgres',
-        host: process.env.HOST || 'localhost'
+        host: process.env.HOST || '178.128.109.213'
       }
     },
     authentication : {
