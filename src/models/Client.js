@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes) =>{
     const Client = sequelize.define('Client', {
         clientID: {
             type: DataTypes.STRING,
+            unique: true,
             validate : {
                 notEmpty : {args: true, msg:'ID Klien belum dimasukkan'}
             }
