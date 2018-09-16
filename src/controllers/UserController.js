@@ -112,13 +112,13 @@ module.exports = {
                 ]
             })
             if(!user){
-                throw {error: 'Incorrect username or username unauthorized'}
+                res.status(403).send({error: 'Incorrect username or username not authorized'})
             }
             
             const isPasswordValid = await user.comparePassword(req.body.password)
             console.log(isPasswordValid)
             if(!isPasswordValid){
-                throw {error: 'Incorrect Password'}
+                res.status(403).send({error: 'Incorrect username or username not authorized'})
             }
 
             res.send({
@@ -127,8 +127,11 @@ module.exports = {
             })
             
         } catch (err) {
-            console.error(err)
-            res.status(403).send(err)
+            let errors = []
+            for(let i=0; i<err.errors.length; i++){
+                errors.push(err.errors[i].validatorArgs[0])
+            }
+            res.status(403).send({error: errors})
         }
     },
 }
