@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 
 function jwtSignUser (user) {
-    const ONE_WEEK = 60*60
+    const ONE_WEEK = 60*60*60
     return jwt.sign(user, config.authentication.jwtSecret, {
         expiresIn : ONE_WEEK
     })
@@ -116,9 +116,8 @@ module.exports = {
             }
             
             const isPasswordValid = await user.comparePassword(req.body.password)
-            console.log(isPasswordValid)
             if(!isPasswordValid){
-                res.status(403).send({error: 'Incorrect username or username not authorized'})
+                res.status(403).send({error: 'Password doesn\'t match username'})
             }
 
             res.send({

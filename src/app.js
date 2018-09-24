@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+const server = require('http').Server(app)
+const io = require('socket.io')(server);
 const {sequelize} = require('./models')
 const cors = require('cors')
 const bodyParser = require('body-parser')
@@ -36,10 +38,17 @@ routes(app);
 //listen
 sequelize.sync({force : false})
 .then(()=>{
-    app.listen(8000,()=>{
+    server.listen(8000,()=>{
         console.log('server started')
     })
 })
 .catch(function(error){
     console.log(error.message)
 })
+
+io.on('connection', function (socket) {
+    socket.emit('news', { hello: 'world' });
+    socket.on('my other event', function (data) {
+      console.log(data);
+    });
+});
